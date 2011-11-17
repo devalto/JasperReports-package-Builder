@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jasperreports" default="build-deb" basedir=".">
+	
+	<property name="packager.name" value="Sylvain Filteau" />
+	<property name="packager.email" value="sfilteau@ada-consult.com" />
+	
+	<property name="package.name" value="jasperreports" />
+	
+	<property name="dir.build" value="${project.basedir}/build" />
+	<property name="dir.dist" value="${project.basedir}/dist" />
+	<property name="dir.src" value="${project.basedir}/src" />
+	
+	<property name="package.fullname" value="${package.name}-${package.version}" />
+	
+	<property name="package.src" value="${dir.src}/${package.fullname}" />
+	<property name="package.dist" value="${dir.dist}/${package.fullname}" />
+	<property name="package.build" value="${dir.build}/${package.fullname}" />
+	
+	<filterchain id="control">
+		<replacetokens begintoken="@@" endtoken="@@">
+			<token key="NAME" value="${package.name}" />
+			<token key="VERSION" value="${package.version}" />
+			<token key="FULLNAME" value="${package.fullname}" />
+			<token key="PACKAGER_NAME" value="${packager.name}" />
+			<token key="PACKAGER_EMAIL" value="${packager.email}" />
+		</replacetokens>
+	</filterchain>
+	
+	<target name="build-deb" depends="build-prepare-env">
+		<!--
+		copy every files in lib directory to dist
+		copy dist/jasperreports-*.jar in dist
+		-->
+		
+		<foreach param="filename" absparam="absfilename" target="copy-to-build">
+			<fileset dir="${package.src}/">
+				<include name="lib/*.jar" />
+				<include name="dist/*.jar" />
+			</fileset>
+		</foreach>
+		
+		<exec command="ln -s ${package.fullname} ${package.name}" dir="${package.build}/usr/share/" />
+		
+		<copy todir="${package.build}">
+			<filterchain refid="control" />
+			<filelist dir="${dir.src}" files="DEBIAN/control" />
+		</copy>
+		
+		<exec command="find . -type d | xargs chmod 755" dir="${package.build}" />
+		
+		<exec command="fakeroot dpkg-deb --build . ${package.dist}.deb" dir="${package.build}" logoutput="true" />
+		
+	</target>
+	
+	<target name="build-prepare-env">
+		
+		<!--
+		Check if package.src exists. If not, fail
+		-->
+		<if>
+			<not><available file="${package.src}" type="dir" /></not>
+			<then>
+				<fail msg="Source directory doesn't exists: ${package.src}" />
+			</then>
+		</if>
+		
+		<!--
+		Create (or delete + create if already exists) package.dist and package.build directory
+		-->
+		<if>
+			<available file="${package.build}" />
+			<then>
+				<delete dir="${package.build}" />
+			</then>
+		</if>
+		
+		<mkdir dir="${package.build}" />
+		
+		<if>
+			<available file="${dir.dist}" />
+			<then>
+				<delete dir="${dir.dist}" />
+			</then>
+		</if>
+		
+		<mkdir dir="${dir.dist}" />
+		
+	</target>
+	
+	<target name="copy-to-build">
+		<if>
+			<not><available file="${package.build}/usr/share/${package.fullname}" /></not>
+			<then>
+				<mkdir dir="${package.build}/usr/share/${package.fullname}" />
+			</then>
+		</if>
+		
+		<copy file="${absfilename}" todir="${package.build}/usr/share/${package.fullname}" />
+	</target>
+
+</project>

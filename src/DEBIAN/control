@@ -1,0 +1,11 @@
+Package: jasperreports
+Version: @@VERSION@@
+Section: devel
+Priority: optional
+Architecture: all
+Depends: sun-java6-bin
+Maintainer: @@PACKAGER_NAME@@ <@@PACKAGER_EMAIL@@>
+Description: Java reports library
+ Creates reports using specially crafted XML 
+ files. For more info, see 
+ http://www.jaspersoft.com
