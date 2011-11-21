@@ -22,3 +22,4 @@ You should have a deb package in your dist directory.
 
 # References
  * http://tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/
+ * http://blog.boxedice.com/2010/02/05/how-to-create-a-debian-deb-package/
