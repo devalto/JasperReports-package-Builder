@@ -6,9 +6,7 @@ We publish the deb packaged JasperReports in [our apt repository](http://repo.ad
 ## Dependencies
 
  * [Phing](http://www.phing.info)
- * These Ubuntu packages:
-   * fakeroot
-   * dpkg-deb
+ * fakeroot Ubuntu package
 
 ## Usage
 
