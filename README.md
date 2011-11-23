@@ -15,7 +15,13 @@ First, you have to download JasperReports library at [JasperForge](http://www.ja
 Then, you call phing :
 
 ```bash
-phing -Dpackage.version=4.0.1
+phing -Dsrc.version=4.0.1
+```
+
+To make another release of the package, add the parameter package.version
+
+```bash
+phing -Dsrc.version=4.0.1 -Dpackage.version=4.0.1-1
 ```
 
 You should have a deb package in your dist directory.
