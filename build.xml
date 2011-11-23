@@ -4,6 +4,7 @@
 	<property name="packager.name" value="Sylvain Filteau" />
 	<property name="packager.email" value="sfilteau@ada-consult.com" />
 	
+	<property name="package.version" value="${src.version}" />
 	<property name="package.name" value="jasperreports" />
 	
 	<property name="dir.build" value="${project.basedir}/build" />
@@ -12,7 +13,7 @@
 	
 	<property name="package.fullname" value="${package.name}-${package.version}" />
 	
-	<property name="package.src" value="${dir.src}/${package.fullname}" />
+	<property name="package.src" value="${dir.src}/${package.name}-${src.version}" />
 	<property name="package.dist" value="${dir.dist}/${package.fullname}" />
 	<property name="package.build" value="${dir.build}/${package.fullname}" />
 	
@@ -36,6 +37,13 @@
 			<fileset dir="${package.src}/">
 				<include name="lib/*.jar" />
 				<include name="dist/*.jar" />
+			</fileset>
+		</foreach>
+		
+		<foreach param="filename" absparam="absfilename" target="copy-to-build">
+			<fileset dir="${dir.src}/ada/">
+				<include name="*.jar" />
+				<include name="*.jar" />
 			</fileset>
 		</foreach>
 		
