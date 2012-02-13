@@ -3,7 +3,7 @@ Version: @@VERSION@@
 Section: devel
 Priority: optional
 Architecture: all
-Depends: sun-java6-bin
+Depends: java-runtime-headless
 Maintainer: @@PACKAGER_NAME@@ <@@PACKAGER_EMAIL@@>
 Description: Java reports library
  Creates reports using specially crafted XML 
